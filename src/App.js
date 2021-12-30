@@ -21,6 +21,7 @@ function App() {
   const toggleArrow = (index) => {
     console.log('clicked')
     const list = [...showDetails];
+    console.log(list , 'before')
     list[index] = { ...list[index], toShowBoard: !list[index].toShowBoard };
     setShowDetails([...list]);
   }
