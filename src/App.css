@@ -1,38 +1,52 @@
+
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 .App {
-  text-align: center;
+  background-Color: '#F3F3F3';
+    flex: 1;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.board-container {
+  margin-left: 5px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.class-container {
+  margin-left: 20px;
+  background-color: aliceblue;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.section-container {
+  margin-left: 30px;
+  background-color: aqua;
+}
+
+.Drag-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+}
+.progress {
+  text-align: center;
+  border: 1px solid lightblue;
+  width: 30vw;
+  height: 80vh;
 }
 
-.App-link {
-  color: #61dafb;
+.progress-heading {
+  padding: 20px;
+  margin-top: 0px;
+  background-color: lightcoral;
+}
+.left-section-container {
+  text-align: center;
+  border: 1px solid lightblue;
+  width: 30vw;
+  height: 80vh;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.board-container {
+  padding: 20px;
+  margin-top: 0px;
+  background-color: lightcoral;
 }
