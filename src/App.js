@@ -1,29 +1,46 @@
 import './App.css';
 import Header from './components/Header';
-import Sidebar from './components/Sidebar';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
-import One from './components/one';
-import { Button, TextField } from '@mui/material';
+import { BrowserRouter as Router } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import md5 from 'md5'
 import axios from 'axios';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import RightSection from './components/RightSection';
+import { ClipLoader } from 'react-spinners';
+import One from './components/one'
 
 
 function App() {
-  const [countryName, setCountryName] = useState('')
   const [boardData, setBoardData] = useState([])
   const [showDetails, setShowDetails] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     fetchBoardData()
   }, [])
 
   const toggleArrow = (index) => {
-    console.log('clicked')
     const list = [...showDetails];
-    console.log(list , 'before')
-    list[index] = { ...list[index], toShowBoard: !list[index].toShowBoard };
+    list[index] = { ...list[index], toShowBoard: !list?.[index]?.toShowBoard };
     setShowDetails([...list]);
+  }
+
+  const toggleClass = (boardIndex, classIndex, event) => {
+    event.stopPropagation()
+    const list = [...showDetails];
+    const classDetailsToShow = [...list?.[boardIndex]?.classDetailsToShow ?? []]
+    classDetailsToShow[classIndex] = { ...classDetailsToShow[classIndex], toShowClass: !classDetailsToShow?.[classIndex]?.toShowClass }
+    list[boardIndex] = { ...list[boardIndex], classDetailsToShow };
+    setShowDetails([...list])
+  }
+
+  const toggleSections = (boardIndex, classIndex, sectionIndex, event) => {
+    event.stopPropagation()
+    const list = [...showDetails];
+    const sectionsDetailsToShow = [...list?.[boardIndex]?.classDetailsToShow?.[classIndex]?.sectionsDetailsToShow ?? []]
+    sectionsDetailsToShow[sectionIndex] = { ...sectionsDetailsToShow[sectionIndex], toShowSections: !sectionsDetailsToShow?.[sectionIndex]?.toShowSections }
+    const updatedClassIndexObject = { ...list?.[boardIndex]?.classDetailsToShow?.[classIndex], sectionsDetailsToShow }
+    list[boardIndex].classDetailsToShow[classIndex] = updatedClassIndexObject
+    setShowDetails([...list])
   }
 
   const fetchBoardData = async () => {
@@ -42,90 +59,94 @@ function App() {
       method: "POST",
       data: data1,
     })
-    console.log(data)
     setBoardData(data.board_details)
+    setIsLoading(false)
   }
 
-  function drag(e) {
+  function dragStart(e) {
+    console.log(e.dataTransfer.effectAllowed, 'effect')
     e.dataTransfer.setData("text", e.target.id);
     e.dataTransfer.setData("parentClass", e.target.parentNode.className);
+    e.dataTransfer.effectAllowed = "copy";
   }
 
-  function drop(e) {
-    e.preventDefault();
-
-    let draggableID = e.dataTransfer.getData("text");
-    let draggable = document.getElementById(draggableID);
-    let clonedNode = draggable.cloneNode(true);
-    draggable.setAttribute("draggable", "false");
-    let container = document.getElementsByClassName("progress-list")[0];
-    container.appendChild(clonedNode);
-  }
-
-  function allowDrop(e) {
-    e.preventDefault();
-  }
 
   return (
     <Router>
-    <div className="App">
-      <Header />
-      <div className="flex">
-          <Sidebar className="w-1/6"/>
-          <div className="w-5/6">
-            <TextField id="standard-basic" label="Country" variant="outlined" placeholder='Enter country' value={countryName} onChange={(e) => setCountryName(e.target.value)}/>
-          </div>
-      </div>
-      <div className="Drag-container">
-        <div className="left-section-container">
-          <div className="board-container">
-            <h4>Board</h4>
+      <div className="App">
+        <Header />
+        {isLoading ? <ClipLoader loading={isLoading} size={150} /> : <One /> }
+        <div className="Drag-container">
+          <div className="left-section-container">
+            <h4 className="board-container">Board</h4>
             {boardData.map((board, boardIndex) => (
-              <>
-                {showDetails?.[boardIndex]?.toShowBoard ?
-                <div 
-                  className="board-child"
-                  draggable
-                  onDragStart={drag}
-                  onClick={() => toggleArrow(boardIndex)}
-                  id={board.board_id}>
-                <h2>{board.board_name}</h2>
-                  <div className='class-container'>
-                    <h4>Class</h4>
-                    {board.class_details.map(classes => (
-                        <div
-                          className='class-child'
-                          draggable
-                          onDragStart={drag} 
-                          id={classes.class_id}>
-                          <h2>{classes.class_name}</h2>
-                          <div className='section-container'>
-                            <h4>Sections</h4>
-                            {classes.section_details.map(sections => (
-                              <>
-                                <div
-                                  draggable
-                                  onDragStart={drag}
-                                  id={sections.section_id}
-                                >
-                                  <h4>{sections.section_name}</h4>
+              <div draggable
+                onDragStart={dragStart} onClick={(e) => toggleArrow(boardIndex)}>
+                <div style={{ display: 'flex' }}>
+                  {showDetails?.[boardIndex]?.toShowBoard ?
+                    <div
+                      className="board-child"
+                      id={board.board_id}>
+                      <h2>{board.board_name}</h2>
+                      <div className='class-container'>
+                        {board.class_details.map((classes, classIndex) => (
+                          <div onClick={(event) => toggleClass(boardIndex, classIndex, event)} style={{ display: 'flex' }} draggable
+                            onDragStart={dragStart}
+                            id={classes.class_id}>
+                            {showDetails?.[boardIndex]?.classDetailsToShow?.[classIndex]?.toShowClass ?
+                              <div
+                                className='class-child'
+                              >
+                                <h2>{classes.class_name}</h2>
+                                <div className='section-container'>
+                                  {classes.section_details.map((sections, sectionIndex) => (
+                                    <div onClick={(e) => toggleSections(boardIndex, classIndex, sectionIndex, e)} style={{ display: 'flex' }}>
+                                      {/* {showDetails?.[boardIndex]?.classDetailsToShow?.[classIndex]?.sectionsDetailsToShow?.[sectionIndex]?.toShowSections ? */}
+                                      <div
+                                        draggable
+                                        onDragStart={dragStart}
+                                        id={sections.section_id}
+                                      >
+                                        <h4>{sections.section_name}</h4>
+                                      </div>
+                                      {/* : <div>[section]</div>} */}
+                                      {/* <div style={{ marginLeft: '20px' }}><ArrowDropDownIcon /></div> */}
+                                    </div>
+                                  ))}
                                 </div>
-                              </>
-                            ))}
+                                <div className='subject-container'>
+                                  <h4>Subject</h4>
+                                  {classes.subject_details.map((subject, subjectIndex) => (
+                                    <div style={{ display: 'flex' }}>
+                                      <div
+                                        draggable
+                                        onDragStart={dragStart}
+                                        id={subject.subject_id}
+                                      >
+                                        <h4>{subject.subject_name}</h4>
+                                      </div>
+                                    </div>
+                                  )
+                                  )}
+                                </div>
+                              </div>
+                              : <div className='class-child'
+                              >[{classes.class_name}]</div>}
+                            <div><ArrowDropDownIcon /></div>
                           </div>
-                        </div>
-                    ))}
-                  </div>
+                        ))}
+                      </div>
+                    </div>
+                    : <div className="board-child"
+                      draggable
+                      onDragStart={dragStart}
+                      id={board.board_id}>[{board.board_name}]</div>}
+                  <div draggable onDragStart={dragStart}><ArrowDropDownIcon /></div>
                 </div>
-                  : <div onClick={() => toggleArrow(boardIndex)}>[{}]</div>}
-              </>
+              </div>
             ))}
           </div>
-        </div>
-        <div className="progress" onDrop={drop} onDragOver={allowDrop}>
-          <h3 className="progress-heading">Progress</h3>
-          <div className="progress-list"></div>
-        </div>
+          <RightSection />
         </div>
       </div>
     </Router>
