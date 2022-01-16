@@ -1,14 +1,20 @@
+/* eslint-disable testing-library/no-unnecessary-act */
 import React from 'react'
-import { mount, shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
-import App from './App'
 
-describe('App', ()=> {
-    let wrapper
-    beforeAll(() => {
-        wrapper = shallow(<App />) 
+import { render, screen, act } from '@testing-library/react'
+import App from './App'
+window.matchMedia =
+    window.matchMedia ||
+    (() => {
+        return {
+            matches: false,
+            addListener() { },
+            removeListener() { },
+        }
     })
-    it('show loader till data is fetched', ()=> {
-        console.log(wrapper.debug())
-    })
+
+describe('App', () => {
+   it.skip('render component', () => {
+
+   })
 })

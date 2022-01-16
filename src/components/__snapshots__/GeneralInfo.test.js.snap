@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test GeneralInfo component should load component 1`] = `
+<div
+  className="generalInfo"
+  data-testid="generalInfo-testid"
+>
+  <div
+    className="ant-spin ant-spin-spinning"
+    data-testid="spinner-container"
+  >
+    <span
+      className="ant-spin-dot ant-spin-dot-spin"
+    >
+      <i
+        className="ant-spin-dot-item"
+      />
+      <i
+        className="ant-spin-dot-item"
+      />
+      <i
+        className="ant-spin-dot-item"
+      />
+      <i
+        className="ant-spin-dot-item"
+      />
+    </span>
+  </div>
+</div>
+`;
