@@ -5,7 +5,7 @@ import SpinnerContainer from './Spinner'
 import { fetchMethod } from '../utils'
 
 const GeneralInfo = () => {
-    const [rowData, setRowData] = useState([])
+    const [rowData, setRowData] = useState({})
     const [isLoading, setIsLoading] = useState(true)
 
     const getAllData = async () => {
@@ -25,7 +25,6 @@ const GeneralInfo = () => {
         getAllData()
     }, [])
 
-
     return (
         <div className="generalInfo" data-testid='generalInfo-testid'>
             {isLoading ? (
@@ -38,7 +37,6 @@ const GeneralInfo = () => {
                         layout="vertical"
                         bordered
                     />
-
                 </Card>
             )}
         </div>

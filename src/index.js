@@ -3,10 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import { CounterProvider } from './Context/Counter';
+import store from './redux/store';
+import { Provider } from 'react-redux'
+store.subscribe(() => console.log(store.getState()))
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <CounterProvider>
+        <App />
+      </CounterProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

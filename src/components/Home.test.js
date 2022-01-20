@@ -17,7 +17,12 @@ window.matchMedia =
         }
     })
 
-    describe('Home test case', () => {
+    describe.only('Home test case', () => {
+        it('should render component completely', () => {
+            render(<Home />)
+            expect(screen.getByTestId('Home-test-id')).toBeInTheDocument()
+        })
+
         it('render component', () => {
             render(<Home />)
             expect(screen.getByTestId('Home-test-id')).toBeInTheDocument()
@@ -25,6 +30,7 @@ window.matchMedia =
             expect(screen.getAllByTestId('alert-test-id')[0].textContent).toBe('No Rules Found, categoryId not received from the event, received attribute value null, Exception thrown')
             expect(screen.getAllByRole('img')[0].getAttribute('aria-label')).toBe('exclamation-circle')
             expect(screen.getAllByTestId('Timeline-color-test-id')[0]).toBeInTheDocument()
+            
             const timelineColorNodes = screen.getAllByTestId('timeline-css')
 
             expect(timelineColorNodes[0].className).toContain('blue')

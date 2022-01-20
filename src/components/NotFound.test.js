@@ -42,11 +42,5 @@ describe('Not found test case', () => {
         expect(div.textContent).toBe('BACK_HOME')
     })
 
-    it('Should call navigate on click of button', () => {
-        const { container } = render(<NotFound />)
-        const div = container.querySelector('Button')
-        fireEvent.click(div)
-        expect(mockNavigate).toBeCalledTimes(1)
-        // expect(mockNavigate).toBeCalledTimes(0)
-    })
+ 
 })

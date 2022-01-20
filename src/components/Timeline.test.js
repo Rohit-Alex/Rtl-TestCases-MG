@@ -38,4 +38,13 @@ describe('Timeline test case', () => {
         expect(screen.getByTestId('TimeLine-test-id')).toBeInTheDocument()
         expect(screen.getByTestId('rule-computation-testid')).toBeInTheDocument()
     })
+
+    it.skip('Should render Empty image', () => {
+        const data = { logLevel: 'error', message: 'Some error occured' }
+        render(<TimeLineDetails traceKey='UNKNOWN' value={data}/>)
+        // const alertIcon = screen.getByRole('img')
+        // expect(alertIcon.getAttribute('aria-label')).toBe('close-circle')
+        expect(screen.getByText('Some error occured')).toBe('Some error occured')
+        screen.debug()
+    })
 })

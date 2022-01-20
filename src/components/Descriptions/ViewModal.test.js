@@ -27,8 +27,8 @@ describe('View modal test', () => {
         expect(button).toBeInTheDocument()
     })
 
-    it.only('Should open modal when clicked on view button' , () => {
-        const { container } = render(<ViewModalHandler modalLabel="Custom modal" modalValue={'{"ruleset":{"operator":"and","rules":[{"key":"$/profile/geography","operator":"==","value":{"singleValue":"National"},"valueType":"String","specificType":"String","attributeType":"SYSTEM"},{"key":"$/data/sellerOrder/totals[?(@/type=="SHIPPING_TOTAL")]/amount","operator":"<","value":{"singleValue":"20000"},"valueType":"Number","specificType":"Money","attributeType":"SYSTEM"}]}}'} />)
+    it('Should open modal when clicked on view button' , () => {
+        render(<ViewModalHandler modalLabel="Custom modal" modalValue={'{"ruleset":{"operator":"and","rules":[{"key":"$/profile/geography","operator":"==","value":{"singleValue":"National"},"valueType":"String","specificType":"String","attributeType":"SYSTEM"},{"key":"$/data/sellerOrder/totals[?(@/type=="SHIPPING_TOTAL")]/amount","operator":"<","value":{"singleValue":"20000"},"valueType":"Number","specificType":"Money","attributeType":"SYSTEM"}]}}'} />)
         const button = screen.getByRole('button', { name: 'View' })
         expect(screen.queryByRole('dialog')).toBeNull()
         fireEvent.click(button)

@@ -10,7 +10,6 @@ const One = () => {
     const [counter, setCounter] = useState(0);
     const [counter1, setCounter1] = useState(100);
     const data = boardData;
-    console.log(data);
 
     useEffect(() => {
         console.log("useEffect running");
@@ -22,7 +21,6 @@ const One = () => {
                 value={counter}
                 onClick={() => {
                     boardData = [...boardData, { boardId: counter + 4, class: "VI" }];
-
                     setCounter((prev) => prev + 1);
                 }}
             >

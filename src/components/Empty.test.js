@@ -7,6 +7,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import EmptyWrapper from './Empty';
+import { ApiLocations } from '../utils';
 
 window.matchMedia =
     window.matchMedia ||
@@ -19,7 +20,7 @@ window.matchMedia =
     })
 
 describe('Empty wrapper', () => {
-    it('should render component with default image', () => {
+    it.only('should render component with default image', () => {
         const { container } = render(<EmptyWrapper description={<span>Default image</span>} image='default' />)
         const div = screen.getByTestId('empty-testId')
         expect(container.getElementsByClassName("ant-empty-img-default")[0]).toBeInTheDocument()

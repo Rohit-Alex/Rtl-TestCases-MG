@@ -68,9 +68,9 @@ describe("Test GeneralInfo component", () => {
             render(<GeneralInfo />)
         })
         expect(screen.getByTestId('generalInfo-testid')).toBeInTheDocument()
+        expect(screen.getByText('General Information')).toBeInTheDocument()
         expect(screen.getByText('formula')).toBeInTheDocument()
         expect(screen.getByTestId('viewmodal-test-id')).toBeInTheDocument()
-        expect(screen.getByText('General Information')).toBeInTheDocument()
         expect(screen.getByRole("table")).toBeInTheDocument()
         expect(screen.getByTestId('badge-testid').textContent).toBe('CREATED')
         // await waitFor(() => {
