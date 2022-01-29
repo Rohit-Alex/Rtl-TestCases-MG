@@ -1,3 +1,6 @@
+import { notification } from "antd"
+import axios from "axios"
+
 export const STATUS = {
     transactionStatus: true
 }
@@ -18,6 +21,115 @@ export const fetchMethod = (url) => fetch(url).then(res => {
         else reject('Api failure')
     })
 })
+
+export const notificationHandler = (type, description, message) => {
+    notification[type]({
+        message,
+        description,
+    });
+}
+
+
+export const POST = (url, body) => {
+    console.log('inside post method');
+    return axios.post(url, body)
+}
+export const TRANSACTION_DATA_COLUMN = [
+    {
+        title: "Transaction Number ",
+        label: "number",
+        dataIndex: "number"
+    },
+    {
+        title: "Transaction Type Name",
+        label: "name",
+        dataIndex: "name",
+        key: "name"
+    },
+    {
+        title: "Transaction Type Mode",
+        label: "mode",
+        dataIndex: "mode"
+    },
+    {
+        title: "Net Amount",
+        label: "netAmount",
+        dataIndex: "netAmount"
+    },
+    {
+        title: "Seller Name",
+        label: "sellerId",
+        dataIndex: "sellerId"
+    },
+    {
+        title: "Seller Order Line Id",
+        label: "sellerOrderLineId",
+        dataIndex: "sellerOrderLineId"
+    },
+    {
+        title: "Created At",
+        label: "createdAt",
+        dataIndex: "createdAt"
+    },
+    {
+        title: "Trace Id ",
+        label: "traceId",
+        dataIndex: "traceId"
+    },
+    {
+        title: "Action",
+        label: "action",
+        dataIndex: "action"
+    }
+];
+
+export const columnList = [
+    {
+        title: "Transaction Number ",
+        value: "number",
+        dataIndex: "number"
+    },
+    {
+        title: "Transaction Type Name",
+        value: "name",
+        dataIndex: "name"
+    },
+    {
+        title: "Transaction Type Mode",
+        value: "mode",
+        dataIndex: "mode"
+    },
+    {
+        title: "Net Amount",
+        value: "netAmount",
+        dataIndex: "netAmount"
+    },
+    {
+        title: "Seller Name",
+        value: "sellerId",
+        dataIndex: "sellerId"
+    },
+    {
+        title: "Seller Order Line Id",
+        value: "sellerOrderLineId",
+        dataIndex: "sellerOrderLineId"
+    },
+    {
+        title: "Created At",
+        value: "createdAt",
+        dataIndex: "createdAt"
+    },
+    {
+        title: "Trace Id ",
+        value: "traceId",
+        dataIndex: "traceId"
+    }
+    // {
+    //  title: "Action",
+    //  value: "action",
+    //  dataIndex: "action",
+    // },
+];
 
 export const traceFlow = [
     {
@@ -264,8 +376,8 @@ const getUrl = (location, params) => {
 }
 
 export const ApiLocations = {
-    GET_TRACE_DETAILS: (tenant, traceId) => {
-        return getUrl(`${baseUrl}/audit/traces/${traceId}`, { tenant })
+    GET_TRACE_DETAILS: () => {
+        return [null, 'https://www.placeholder.com/todos']
     },
     GET_TRANSACTION_SEARCH: () => {
         return getUrl(`${baseUrl}/transactions/search`)

@@ -25,6 +25,5 @@ window.matchMedia =
         it('Should render component', () => {
             render(<Home />)
             expect(screen.queryByTestId('home-testid')).not.toBeInTheDocument()
-            screen.debug()
         })
     })

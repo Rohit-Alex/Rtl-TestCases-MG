@@ -28,13 +28,13 @@ describe('Notification handler', () => {
         notification.destroy()
     })
 
-    it.skip('Should show notification with explicit values', () => {
+    it('Should show notification with explicit values', () => {
         notificationHandler({
             type: 'error', title: 'Error', description: 'This is the content of the notification.', url: 'https://www.google.com'
         })
         const notificationImage = screen.getAllByRole('img')[0]
         expect(notificationImage.getAttribute('aria-label')).toBe('close-circle')
-        expect(screen.getByTestId('notification-testid').textContent).toBe('URL: https://www.google.com')
+        expect(screen.getByTestId('url-testid').textContent).toBe('URL: https://www.google.com')
         expect(screen.getByText('Error')).toBeInTheDocument()
         notification.destroy()
     })

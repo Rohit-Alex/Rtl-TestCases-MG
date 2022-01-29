@@ -13,7 +13,7 @@ function useCounter() {
 
     const fetchBoardData = async () => {
         try {
-            const { data } = await axios.get('https://jsonplaceholder.typicode.com/todos')
+            const { data = [] } = await axios.get('https://jsonplaceholder.typicode.com/todos')
             dispatch(updateTodo(data))
             setApiData(data)
         } catch (err) {
@@ -26,7 +26,7 @@ function useCounter() {
     const greetings = (name) => (`Hello ${name}`);
 
     useEffect(() => {
-        fetchBoardData()
+        // fetchBoardData()
     }, [])
 
     return { count, increment, isLoading, apiData, greetings }
