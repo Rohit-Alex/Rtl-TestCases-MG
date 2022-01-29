@@ -1,6 +1,7 @@
 import { Button } from '@mui/material';
 import { Input, Select, DatePicker } from 'antd';
 import React, { useState } from 'react';
+import 'antd/dist/antd.css';
 const { Option } = Select
 
 const options = [{ label: 'Mode', value: 'mode' }, { label: 'Number', value: 'number' }, { label: 'Transactions Created At', value: 'createdAt' }, { label: 'Seller line order id', value: 'sellerLineOrderId' }]

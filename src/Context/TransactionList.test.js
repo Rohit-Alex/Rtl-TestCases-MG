@@ -153,7 +153,7 @@ describe.only('Transaction list test case', () => {
         fireEvent.click(div);
 
         //select end date from calender(end date)
-        const endDate = screen.getByTestId("end-date");
+        const endDate = screen.getByPlaceholderText("SEARCH_END_DATE_PLACEHOLDER");
         fireEvent.mouseDown(endDate);
         fireEvent.change(endDate, { target: { value: "10-12-2021" } });
         fireEvent.click(document.querySelectorAll(".ant-picker-cell-selected")[1]);

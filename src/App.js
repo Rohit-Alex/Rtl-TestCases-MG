@@ -3,6 +3,7 @@ import "./App.css";
 import { useSelector, useDispatch } from "react-redux";
 import { DemoCounterProvider } from "./Context/DemoContex";
 import DemoCounter from "./Components/DemoCounter";
+import 'antd/dist/antd.css';
 
 function App() {
 
