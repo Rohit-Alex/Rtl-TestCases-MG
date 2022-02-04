@@ -31,7 +31,6 @@ export const notificationHandler = (type, description, message) => {
 
 
 export const POST = (url, body) => {
-    console.log('inside post method');
     return axios.post(url, body)
 }
 export const TRANSACTION_DATA_COLUMN = [
@@ -123,12 +122,12 @@ export const columnList = [
         title: "Trace Id ",
         value: "traceId",
         dataIndex: "traceId"
-    }
-    // {
-    //  title: "Action",
-    //  value: "action",
-    //  dataIndex: "action",
-    // },
+    },
+    {
+     title: "Action",
+     value: "action",
+     dataIndex: "action"
+    },
 ];
 
 export const traceFlow = [
@@ -358,11 +357,13 @@ export const traceFlow = [
 const baseUrl = process.env.REACT_APP_API_BASE_URL
 
 const getUrl = (location, params) => {
+    console.log('inside getUrl');
     try {
         const url = new URL(location)
         url.search = new URLSearchParams(params)
         return [null, url]
     } catch (err) {
+        console.log(err, 'in catch block');
         return [
             {
                 description: err.message,
@@ -386,3 +387,49 @@ export const ApiLocations = {
         return getUrl(`${baseUrl}/500error`)
     },
 }
+
+const fetchWithTimeout = async (
+    uri,
+    options = {},
+    timeout = 6000
+) => {
+    const controller = new AbortController()
+    const config = { ...options, signal: controller.signal }
+
+    setTimeout(() => {
+        console.log('inside set timeout', timeout);
+        controller.abort()
+    }, timeout)
+
+    try {
+        const response = await fetch(uri, config)
+        console.log(response, 'after fetch in timeout');
+        return response
+    } catch (err) {
+        let error = err || {}
+
+        if (error.name === "AbortError") {
+            error = { code: "TIME_OUT", message: "RESPONSE_TIME_OUT" }
+        }
+
+        throw error
+    }
+}
+
+const httpCall = (method) => async (url, token, body, timeout) => {
+    const options = {
+        method,
+        headers: {
+            "Accept": "*/*",
+        },
+        body: JSON.stringify(body),
+    }
+
+    try {
+        const response = await fetchWithTimeout(url, options, timeout)
+        return Promise.resolve(response)
+    } catch (err) {
+        return Promise.reject(err)
+    }
+}
+export const POST1 = httpCall("POST")

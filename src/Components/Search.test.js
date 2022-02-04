@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-unnecessary-act */
 import React from 'react'
 
@@ -17,22 +18,22 @@ window.matchMedia =
     })
 
 var handleSearch = jest.fn((a, b) => console.log(a, 'a', b , 'b'))
-describe.only('Search', () => {
-    it.only('Should render search component properly', async () => {
+describe('Search', () => {
+    it('Should render search component properly', async () => {
         render(<Search handleSearch={handleSearch}/>)
 
         //select mode from dropdown
         const select = document.querySelector('.ant-select-selector')
         fireEvent.mouseDown(select);
-        const selectedOption = screen.getByText('Mode')
+        const selectedOption = screen.getByText('Transactions Type Mode')
 
         //input the search value for mode type
         const inputField = screen.getByPlaceholderText('SEARCH_INPUT_PLACEHOLDER')
 
         //update the search value and filter value
-        await act(async () => {
-            await fireEvent.change(inputField, { target: { value: 'updated field value for number' } })
-            await fireEvent.click(selectedOption)
+        act(async () => {
+            fireEvent.change(inputField, { target: { value: 'Debit' } })
+            fireEvent.click(selectedOption)
         })
 
         //click the search button
@@ -42,7 +43,7 @@ describe.only('Search', () => {
         expect(handleSearch).toHaveBeenCalledWith('mode', 'updated field value for number')
     })
 
-    it.only('Should call handleSearch when selected createdAt', async () => {
+    it('Should call handleSearch when selected createdAt', async () => {
         render(<Search handleSearch={handleSearch} />)
 
         //select created at from dropdown
@@ -54,20 +55,32 @@ describe.only('Search', () => {
         })
 
         //select start date from calender(start date)
-        const startDate = screen.getByTestId("start-date");
-        fireEvent.mouseDown(startDate);
-        fireEvent.change(startDate, { target: { value: "10-12-2020" } });
-        fireEvent.click(document.querySelectorAll(".ant-picker-cell-selected")[0]);
+        const startDate = screen.getByPlaceholderText('SEARCH_START_DATE_PLACEHOLDER')
+        fireEvent.mouseDown(startDate)
+        fireEvent.change(startDate, { target: { value: "2020-12-20" } });
+        await act(async () => {
+            fireEvent.click(document.querySelectorAll(".ant-picker-cell-selected")[0]);
+        })
 
-        //select end date from calender(end date)
-        const endDate = screen.getByTestId("end-date");
-        fireEvent.mouseDown(endDate);
-        fireEvent.change(endDate, { target: { value: "10-12-2021" } });
-        fireEvent.click(document.querySelectorAll(".ant-picker-cell-selected")[1]);
+        const endDate = screen.getByPlaceholderText("SEARCH_END_DATE_PLACEHOLDER");
+        await fireEvent.mouseDown(endDate);
+        await fireEvent.change(endDate, { target: { value: "2023-02-20" } });
+        await act(async () => {
+            fireEvent.click(document.querySelectorAll(".ant-picker-cell-selected")[1]);
+        })
 
+        const crossIcon = document.querySelectorAll(".ant-picker-clear")[0]
+        await act(async () => {
+            await fireEvent.click(crossIcon)
+            await fireEvent.click(document.querySelectorAll(".ant-picker-cell-selected")[0]);
+        })
+
+        console.log(startDate.getAttribute('value'), 'after');
         // select search button
-        const searchButton = screen.getByRole('button', { name: 'Search' })
-        fireEvent.click(searchButton)
-        expect(handleSearch).toHaveBeenCalledWith('createdAt', { "endDate": "2021-12-09T18:30:00.000Z", "startDate": "2020-12-09T18:30:00.000Z" })
+        const searchButton = screen.getByTestId('search-button-testid')
+        await act(async () => {
+            await fireEvent.click(searchButton)
+        })
+        expect(handleSearch).toHaveBeenCalled()
     })
 })

@@ -4,7 +4,6 @@ import { Button, Checkbox, Col, Dropdown, Menu, Row } from "antd";
 import ProfileOutlined from "@ant-design/icons/ProfileOutlined";
 
 const DropdownList = ({ columnList, selectedValue, handleChangeCheckbox }) => {
-    // console.log(selectedValue, 'selectedValue in dropdown');
     const ColumnNames = ({ columnList, selectedValue, handleChangeCheckbox }) => {
         return (
             (columnList.length && (

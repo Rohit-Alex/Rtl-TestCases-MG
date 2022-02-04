@@ -5,6 +5,7 @@ import { useTransactionSearchContext } from "../Context/TransactionData"
 import { TRANSACTION_DATA_COLUMN } from "../utils"
 import Search from "./Search"
 import DropdownList from './Dropdown'
+import { Link } from "react-router-dom"
 
 const TransactionList = () => {
     const [page, setPage] = useState(1)
@@ -55,7 +56,7 @@ const TransactionList = () => {
     }, [page, tenant])
 
     const nextData = () => {
-        if (page > pagination?.totalPages) {
+        if (page >= pagination?.totalPages) {
             setHasMore(false)
             return
         }
@@ -74,9 +75,11 @@ const TransactionList = () => {
         updatedValues.push({
             title: "Action",
             label: "action",
-            dataIndex: "action",
-            key: "action",
-            render: () => <a href="events/details">{("VIEW")}</a>,
+            dataIndex: "traceId",
+            render: traceId => <Link to={{
+                pathname: 'events/details',
+                data: traceId,
+            }}>{("VIEW")}</Link>,
         })
         setFilteredValues(updatedValues)
     }, [selectedValue])

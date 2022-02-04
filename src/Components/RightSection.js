@@ -6,7 +6,6 @@ function RightSection() {
     const [customBoardName, setCustomBoardName] = useState('')
     const [boardName, setBoardName] = useState('')
     function drop(e) {
-        console.log("drop: dropEffect = " + e.dataTransfer.dropEffect + " ; effectAllowed = " + e.dataTransfer.effectAllowed);
         e.preventDefault();
         let draggableID = e.dataTransfer.getData("text");
         let draggable = document.getElementById(draggableID);

@@ -9,7 +9,6 @@ import { ApiLocations, notificationHandler, POST } from "../utils"
 const reducer = (state, action) => {
     switch (action.type) {
         case "UPDATE_TRANSACTION_DATA":
-            console.log('trying to update');
             return {
                 ...state,
                 transactionData: [...state.transactionData, ...action.payload],
@@ -85,13 +84,17 @@ const useTransactionSearch = ({ initialData = {} }) => {
     }
 
     const handleErrorNotifications = (error) => {
-        const { code: title = "", message: description = "" } = error
-
+        let { title = "", description = "", duration, url } = error
+        if (!title) title = error?.code ? error?.code : ''
+        if (!description) description = error?.message ? error?.message : ''
         notificationHandler({
             type: "error",
             title: (title),
             description: (description),
+            duration,
+            url,
         })
+    
     }
 
 
@@ -108,7 +111,6 @@ const useTransactionSearch = ({ initialData = {} }) => {
     }
 
     const resetDataOnSearch = () => {
-        console.log('inside reset data on search');
         dispatch({
             type: 'RESET',
         })
@@ -124,6 +126,7 @@ const useTransactionSearch = ({ initialData = {} }) => {
             const response = await POST(url, token, payload)
             updateTransactionSearch(response)
         } catch (error) {
+            //title aur description
             console.log('inside error', error);
             handleErrorNotifications(error)
         } finally {

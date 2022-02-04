@@ -1,8 +1,10 @@
 import { Button } from '@mui/material';
-import { Input, Select, DatePicker } from 'antd';
+import { Input } from 'antd';
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
-const { Option } = Select
+import DatePickers from './CustomDatePicker';
+import { sub } from 'date-fns';
+import SelectWrapper from './SelectWrapper';
 
 const options = [{ label: 'Mode', value: 'mode' }, { label: 'Number', value: 'number' }, { label: 'Transactions Created At', value: 'createdAt' }, { label: 'Seller line order id', value: 'sellerLineOrderId' }]
 
@@ -13,19 +15,32 @@ function Search({ handleSearch }) {
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
 
+    const disabledDateForEndDate = (current) => {
+        if (!startDate) return current && current.valueOf() > Date.now();
+        else return current && current <= sub(new Date(), { days: 1 });
+    };
+    const disabledDateForStartDate = (current) => {
+        return current && current.valueOf() > Date.now();
+    };
+    
+    console.log(endDate, 'endDate');
     return (
         <div data-testid="search-test">
             {filterValue === 'createdAt' ? ['startDate', 'endDate'].map((type, index) => 
-                <DatePicker
-                    format="DD-MM-YYYY"
+                <DatePickers
+                    value={index === 0 ? startDate : endDate}
                     placeholder={type === "startDate" ? ("SEARCH_START_DATE_PLACEHOLDER") : ("SEARCH_END_DATE_PLACEHOLDER")}
-                    style={{ width: "300px" }}
-                    onChange={(date) => {
-                        if (type === 'startDate') setStartDate(date.toISOString())
-                        else setEndDate(date.toISOString())
+                    onChange={(date, d) => {
+                        console.log('inside date on change');
+                        if (type === 'startDate') {
+                            setEndDate('')
+                            setStartDate(date)
+                        }
+                        else setEndDate(date)
                     }}
-                    data-testid={type === 'startDate' ? 'start-date' : 'end-date'}
-                    key={index} 
+                    key={index}
+                    disabledDate={index === 0 ? disabledDateForStartDate : disabledDateForEndDate}
+                    data-testid={`${type}-testid`}
                 />) :
                 <Input
                     name="search-input"
@@ -36,27 +51,23 @@ function Search({ handleSearch }) {
                     style={{ width: "300px" }}
                     size="middle"
                     onChange={(e) => {
+                        console.log(e.target.value, 'in search value')
                         setSearchValue(e.target.value)
                     }}
                 />
             }
-            <Select
+            <SelectWrapper
                 placeholder={("SEARCH_SELECT_PLACEHOLDER")}
                 style={{ width: 200 }}
                 size="middle"
-                allowClear
+                allowClear={filterValue ? true : false}
                 value={filterValue}
                 data-testid="search-testid"
+                options={options}
                 onChange={(value) => {
                     setFilterValue(value || "")
                 }}
-            >
-                {options.map((option) => (
-                    <Option key={option.value} value={option.value}>
-                        {option.label}
-                    </Option>
-                ))}
-            </Select>
+            />
             <Button 
                 onClick={() => {
                     if(filterValue === 'createdAt') handleSearch(filterValue, {startDate, endDate})

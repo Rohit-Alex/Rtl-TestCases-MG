@@ -33,7 +33,6 @@ const handleChangeCheckbox = jest.fn(x => x)
             const sellerOrderId = screen.getAllByTestId('traceId-data-testid')
             fireEvent.click(sellerOrderId[0])
             expect(handleChangeCheckbox).toBeCalledWith(["number", "name", "mode", "netAmount", "sellerId", "sellerOrderLineId", "createdAt"])
-            // console.log(sellerOrderId);
         })
         
     })
