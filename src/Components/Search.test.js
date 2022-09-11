@@ -68,6 +68,7 @@ describe('Search', () => {
         await act(async () => {
             fireEvent.click(document.querySelectorAll(".ant-picker-cell-selected")[1]);
         })
+        endDate.setAttribute('value', '')
 
         const crossIcon = document.querySelectorAll(".ant-picker-clear")[0]
         await act(async () => {
@@ -75,7 +76,7 @@ describe('Search', () => {
             await fireEvent.click(document.querySelectorAll(".ant-picker-cell-selected")[0]);
         })
 
-        console.log(startDate.getAttribute('value'), 'after');
+
         // select search button
         const searchButton = screen.getByTestId('search-button-testid')
         await act(async () => {

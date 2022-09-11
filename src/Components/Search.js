@@ -23,7 +23,7 @@ function Search({ handleSearch }) {
         return current && current.valueOf() > Date.now();
     };
     
-    console.log(endDate, 'endDate');
+    // console.log(endDate, 'endDate');
     return (
         <div data-testid="search-test">
             {filterValue === 'createdAt' ? ['startDate', 'endDate'].map((type, index) => 
@@ -31,7 +31,6 @@ function Search({ handleSearch }) {
                     value={index === 0 ? startDate : endDate}
                     placeholder={type === "startDate" ? ("SEARCH_START_DATE_PLACEHOLDER") : ("SEARCH_END_DATE_PLACEHOLDER")}
                     onChange={(date, d) => {
-                        console.log('inside date on change');
                         if (type === 'startDate') {
                             setEndDate('')
                             setStartDate(date)

@@ -6,14 +6,21 @@ import reportWebVitals from './reportWebVitals';
 import { CounterProvider } from './Context/Counter';
 import store from './redux/store';
 import { Provider } from 'react-redux'
+import { RoleProvider } from './Context/TempContext';
+import { TransactionSearchProvider } from './Context/TransactionData';
 store.subscribe(() => console.log(store.getState()))
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <CounterProvider>
-        <App />
-      </CounterProvider>
-    </Provider>
+    {/* <Provider store={store}> */}
+      <RoleProvider>
+        <TransactionSearchProvider>
+        <CounterProvider>
+          <App />
+        </CounterProvider>
+        </TransactionSearchProvider>
+        
+      </RoleProvider>
+    {/* </Provider> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

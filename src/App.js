@@ -1,26 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
-import { useSelector, useDispatch } from "react-redux";
-import { DemoCounterProvider } from "./Context/DemoContex";
-import DemoCounter from "./Components/DemoCounter";
+// import { useSelector, useDispatch } from "react-redux";
 import 'antd/dist/antd.css';
-import Search from "./Components/Search";
-import MoveSections from "./Components/MoveSections";
+
+import { DemoCounterProvider } from "./Context/DemoContex";
+import ExpandableTable from "./Components/ExpandableTable";
 
 function App() {
-
-  const myState = useSelector(state => state.todoReducer)
-  const dispatch = useDispatch()
-  const handleSearch = (a, b) => {
-    const { startDate, endDate } = b
-    const startDateInModified = new Date(startDate)
-    startDateInModified.setUTCHours(0,0,0,0)
-    console.log(startDateInModified.toISOString())
-  }
+  const [searchBy, setSearchBy] = useState('')
+  const [helperFlag, setHelperFlag] = useState(false)
+  // const myState = useSelector(state => state.todoReducer)
+  // const dispatch = useDispatch()
+  // const handleSearch = (a, b) => {
+  //   const { startDate, endDate } = b
+  //   const startDateInModified = new Date(startDate)
+  //   startDateInModified.setUTCHours(0,0,0,0)
+  //   console.log(startDateInModified.toISOString())
+  // }
   return (
     <div className='App' data-testid="data-container" >
-      
-      <MoveSections />
+      <DemoCounterProvider>
+
+     
+      {/* <DebounceMethod />
+      <MoveSections /> */}
+      {/* <One /> */}
+      {/* <div onClick={() => setSearchBy('date-range')} data-testid="date-range">Date range</div>
+      {<SearchFilter1 />} */}
+      {/* <Nirali />
+      <Drpdwn columnList={[
+        { dataIndex: "one", title: "one", key: "1" },
+        { dataIndex: "two", title: "two", key: "2" },
+        { dataIndex: "three", title: "three", key: "3" }
+      ]}/> */}
+      {/* <DemoCounter /> */}
+      <ExpandableTable />
+      </DemoCounterProvider>
+          {/* <Issues/> */}
+
     </div>
   );
 }

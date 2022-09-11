@@ -12,7 +12,6 @@ function RightSection() {
         // draggable.draggable = true
         // draggable.addEventListener('')
         // let clonedNode = draggable.cloneNode(true);
-        console.log(draggable, 'draggle')
         // draggable.setAttribute("draggable", "false");
         let container = document.getElementsByClassName("progress-list")[0];
         // clonedNode.addEventListener('click', toggleArrow)

@@ -46,14 +46,14 @@ const defaultState = {
     pagination: {},
 }
 
-const init = (initialData) => ({
+const initFunction = (initialData) => ({
     ...defaultState,
     ...initialData,
 })
 
 const useTransactionSearch = ({ initialData = {} }) => {
     const [isLoading, setIsLoading] = useState(false)
-    const [state, dispatch] = useReducer(reducer, initialData, init)
+    const [state, dispatch] = useReducer(reducer, initialData, initFunction)
     // const { token } = useEventContext()
     const token = '213213123123'
 
@@ -127,7 +127,6 @@ const useTransactionSearch = ({ initialData = {} }) => {
             updateTransactionSearch(response)
         } catch (error) {
             //title aur description
-            console.log('inside error', error);
             handleErrorNotifications(error)
         } finally {
             setIsLoading(false)

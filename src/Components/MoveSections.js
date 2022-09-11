@@ -8,62 +8,23 @@ const MoveSections = () => {
     const [selectedSubject, setSelectedSubject] = useState('')
     const [selectedChapter, setSelectedChapter] = useState('')
 
+    const createDiv = (name, parent = '') => {
+        const div = document.createElement('div')
+        div.classList.add(name)
+        div.innerHTML = name
+        if (parent) parent.appendChild(div)
+        return div
+    }
+
     const handleMove = () => {
         const sourceContainer = document.getElementsByClassName('source-container')[0]
         const clonedNode = sourceContainer.cloneNode(true)
-        let targetContainerChilds
-        if (document.getElementsByClassName('Target-container')?.[0])
-            targetContainerChilds = document.getElementsByClassName('Target-container')[0]?.childNodes 
-        else {
-            const div = document.createElement('div')
-            div.classList.add('Target-container')
-            targetContainerChilds = div
-        }
-        console.log(typeof targetContainerChilds, 'targetContainerChilds');
-        let targetClassChilds
-        if ([...targetContainerChilds].find(x => x.className === selectedClass)) {
-            targetClassChilds = [...targetContainerChilds].find(x => x.className === selectedClass).childNodes
-        } else {
-            console.log('inside else of target class');
-            const div = document.createElement('div')
-            div.classList.add(`${selectedClass}`)
-            div.innerHTML = selectedClass
-            targetClassChilds = div
-        }
-        let targetSection 
-        if ([...targetClassChilds].find(x => x.className === selectedSection)) {
-            targetSection = [...targetClassChilds].find(x => x.className === selectedSection)
-        } else {
-            console.log('inside else of target section');
-            const div = document.createElement('div')
-            div.classList.add(`${selectedSection}`)
-            div.innerHTML = selectedSection
-            targetSection = div        
-        }
-        let targetSubject
-        if ([...targetSection.childNodes].find(x => x.className === selectedSubject)) {
-            targetSubject = [...targetSection.childNodes].find(x => x.className === selectedSubject)
-        } else {
-            console.log('inside else of target subject');
-            const div = document.createElement('div')
-            div.classList.add(`${selectedSubject}`)
-            div.innerHTML = selectedSubject
-            targetSubject = div
-            targetSection.appendChild(targetSubject)
-        }
-        let targetTopics
-        if ([...targetSubject.childNodes].find(x => x.className === selectedChapter)) {
-            targetTopics = [...targetSubject.childNodes].find(x => x.className === selectedChapter)
-        } else {
-            console.log('inside else of target topics', targetSubject);
-            const div = document.createElement('div')
-            div.classList.add(`${selectedChapter}`)
-            div.innerHTML = selectedChapter
-            targetTopics = div
-            targetSubject.appendChild(targetTopics)
-        }
-        console.log(targetSubject, 'targetSubject after');
-        console.log('click', targetContainerChilds)
+        const targetContainer = document.getElementsByClassName('Target-container')?.[0] ?? createDiv('Target-container')
+        const targetClass = [...targetContainer.childNodes].find(x => x.className === selectedClass) ?? createDiv(selectedClass, targetContainer)
+        const targetSection = [...targetClass.childNodes].find(x => x.className === selectedSection) ?? createDiv(selectedSection, targetClass)
+        const targetSubject = [...targetSection.childNodes].find(x => x.className === selectedSubject) ?? createDiv(selectedSubject, targetSection)
+        const targetTopics = [...targetSubject.childNodes].find(x => x.className === selectedChapter) ?? createDiv(selectedChapter, targetSubject)
+        console.log(targetTopics, 'targetTopics');
         targetTopics.appendChild(clonedNode)
     }
 

@@ -23,7 +23,7 @@ window.matchMedia =
     })
 jest.mock('../Context/DemoContex')
 
-describe.only('Demo counter', () => {
+describe('Demo counter', () => {
     beforeEach(() => {
         useDemoCounterContext.mockReturnValue({
             count: 0,

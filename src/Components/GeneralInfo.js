@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card } from 'antd'
 import DescriptionWrapper from './Descriptions'
-import SpinnerContainer from './Spinner'
 import { fetchMethod } from '../utils'
 
 const GeneralInfo = () => {
@@ -28,7 +27,7 @@ const GeneralInfo = () => {
     return (
         <div className="generalInfo" data-testid='generalInfo-testid'>
             {isLoading ? (
-                <SpinnerContainer isLoading={isLoading} />
+                <span>Loading...</span>
             ) : (
                 <Card bordered={false} className="audit-hoverable" title="General Information">
                     <DescriptionWrapper

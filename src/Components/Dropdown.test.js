@@ -23,7 +23,7 @@ window.matchMedia =
 const selectedValue = columnList.map((e) => e.dataIndex)
 const handleChangeCheckbox = jest.fn(x => x)
 
-    describe.only('Dropdown list', () => {
+    describe('Dropdown list', () => {
         it('should render dropdownlist', () => {
             render(<DropdownList columnList={columnList} selectedValue={selectedValue} handleChangeCheckbox={handleChangeCheckbox} />)
             const dropdownContainer = screen.getByRole('button', {

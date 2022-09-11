@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useDemoCounterContext } from '../Context/DemoContex';
 
 const DemoCounter = () => {
-    const { count, message, increment, reset } = useDemoCounterContext()
+    const { count, message, increment, reset, isRoleAvailable } = useDemoCounterContext()
     const [dependency1, setDependency1] = useState(1)
     const [dependency2, setDependency2] = useState({})
     const handleIncrementAndReset = () => {
@@ -12,8 +12,9 @@ const DemoCounter = () => {
         setDependency2({name: 'rohit'})
         setDependency1(1)
     }
+    console.log(isRoleAvailable, 'isRoleAvailable')
     useEffect(() => {
-        increment()
+        // increment()
     }, [dependency1, JSON.stringify(dependency2)])
     return (
         <>

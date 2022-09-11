@@ -17,7 +17,7 @@ window.matchMedia =
         }
     })
 
-    describe.only('Home test case', () => {
+    describe('Home test case', () => {
         it('should render component completely', () => {
             render(<Home />)
             expect(screen.getByTestId('Home-test-id')).toBeInTheDocument()

@@ -357,13 +357,11 @@ export const traceFlow = [
 const baseUrl = process.env.REACT_APP_API_BASE_URL
 
 const getUrl = (location, params) => {
-    console.log('inside getUrl');
     try {
         const url = new URL(location)
         url.search = new URLSearchParams(params)
         return [null, url]
     } catch (err) {
-        console.log(err, 'in catch block');
         return [
             {
                 description: err.message,
@@ -397,13 +395,11 @@ const fetchWithTimeout = async (
     const config = { ...options, signal: controller.signal }
 
     setTimeout(() => {
-        console.log('inside set timeout', timeout);
         controller.abort()
     }, timeout)
 
     try {
         const response = await fetch(uri, config)
-        console.log(response, 'after fetch in timeout');
         return response
     } catch (err) {
         let error = err || {}
@@ -433,3 +429,11 @@ const httpCall = (method) => async (url, token, body, timeout) => {
     }
 }
 export const POST1 = httpCall("POST")
+
+export const PxToRem = (px) => {
+    return px * 0.0625
+}
+
+export const getMonthNames = () => {
+    return ["JAN", 'FEB', 'MAR', 'APR', 'MAY', 'JUNE', 'JULY', 'AUG', 'SEPT', 'OCT', 'NOV', 'DEC']
+}

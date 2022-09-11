@@ -20,7 +20,7 @@ window.matchMedia =
     })
 
 describe('Empty wrapper', () => {
-    it.only('should render component with default image', () => {
+    it('should render component with default image', () => {
         const { container } = render(<EmptyWrapper description={<span>Default image</span>} image='default' />)
         const div = screen.getByTestId('empty-testId')
         expect(container.getElementsByClassName("ant-empty-img-default")[0]).toBeInTheDocument()

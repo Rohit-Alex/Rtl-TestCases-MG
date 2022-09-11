@@ -4,7 +4,7 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { useTransactionSearchContext } from './TransactionData'
 import TransactionList from '../Components/TransactionList'
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, prettyDOM, render, screen } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
 import { wait } from '@testing-library/user-event/dist/utils'
 import { ApiLocations } from '../utils'
@@ -111,7 +111,7 @@ describe('Transaction list test case', () => {
         })
     })
 
-    it.only('Should render search component properly', async () => {
+    it('Should render search component properly', async () => {
         await act(async () =>
             await render(<TransactionList />)
         )
@@ -153,7 +153,7 @@ describe('Transaction list test case', () => {
         await act(async () => {
             await fireEvent.mouseDown(select)
         })
-
+        
             const selectedOption = screen.getByText('Transactions Created At')
             await act(async () => {
                 await fireEvent.click(selectedOption)
@@ -195,7 +195,7 @@ describe('Transaction list test case', () => {
         })
         expect(screen.queryByRole('columnheader', {
             name: 'Trace Id'
-        })).not.toBeInTheDocument()
+        })).toBeInTheDocument()
     })
 
     it('Should call nextData method and call nextData', async () => {
@@ -289,5 +289,20 @@ describe('Transaction list test case', () => {
         const data = ApiLocations.GET_TRANSACTION_SEARCH()
         expect(data[0].title).toBe('BAD_REQUEST')
 
+    })
+
+    it.only('Should filter elements when searched from the Select box', async () => {
+        render(<TransactionList />)
+        const selectContainer = screen.getByRole('combobox')
+        console.log(prettyDOM(selectContainer)) // for priniting in better manner in HTML format
+        fireEvent.change(selectContainer, {target: { value: 'FBF I'}});
+        
+        // to select an option from drpdwn ==>> start
+        // fireEvent.mouseDown(selectContainer);
+        // const selectedOption = screen.getByText(/Closed/i)
+        // await act(async () => {
+        //     await fireEvent.click(selectedOption)
+        // })
+        // to select an option from drpdwn ===>> end
     })
 })

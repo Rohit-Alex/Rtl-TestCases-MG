@@ -4,6 +4,7 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { renderHook, act } from '@testing-library/react-hooks'
 import { DemoCounterProvider, useDemoCounterContext } from './DemoContex'
+import { CounterProvider } from './Counter'
 import { fetchMethod } from '../utils'
 // import { act, renderHook } from '@testing-library/react'
 
@@ -19,10 +20,10 @@ window.matchMedia =
         }
     })
 
-describe.only('contex test', () => {
+describe('contex test', () => {
     let wrapper
     beforeEach(() => {
-        wrapper = ({ children }) => <DemoCounterProvider>{children}</DemoCounterProvider>
+        wrapper = ({ children }) => <CounterProvider><DemoCounterProvider>{children}</DemoCounterProvider></CounterProvider>
     })
     afterEach(() => jest.clearAllMocks())
     it('Should increase count', async () => {
