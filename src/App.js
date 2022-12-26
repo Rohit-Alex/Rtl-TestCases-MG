@@ -5,6 +5,7 @@ import 'antd/dist/antd.css';
 
 import { DemoCounterProvider } from "./Context/DemoContex";
 import ExpandableTable from "./Components/ExpandableTable";
+import DataGridDemo from "./DataGrid";
 
 function App() {
   const [searchBy, setSearchBy] = useState('')
@@ -37,7 +38,7 @@ function App() {
       <ExpandableTable />
       </DemoCounterProvider>
           {/* <Issues/> */}
-
+      <DataGridDemo />
     </div>
   );
 }
